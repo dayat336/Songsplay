@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YATZZ MUSIC</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #080b16;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* BACKGROUND */
+#bgVideo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: #0508149e;
+  z-index: -1;
+}
+
+.container {
+  width: 92%;
+  max-width: 1050px;
+  margin: auto;
+  padding: 30px 0;
+}
+
+/* INTRO */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #050713d9;
+  backdrop-filter: blur(15px);
+  transition: .5s;
+}
+
+#intro.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-box {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  padding: 35px 25px;
+  text-align: center;
+  border: 1px solid #ffffff45;
+  border-radius: 25px;
+  background: #ffffff12;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 50px #a78bfa35;
+  animation: popup .7s ease;
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+#closeIntro {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #ffffff40;
+  border-radius: 50%;
+  background: #ffffff20;
+  color: white;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.intro-icon {
+  font-size: 50px;
+  color: #c4b5fd;
+  margin-bottom: 15px;
+}
+
+.intro-box h1 {
+  font-size: 25px;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+
+.intro-box h1 span {
+  color: #c4b5fd;
+}
+
+.intro-box p {
+  color: #ffffffbd;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+
+.join-btn {
+  display: block;
+  padding: 14px;
+  border-radius: 12px;
+  background: #c4b5fd;
+  color: #21153e;
+  font-weight: bold;
+  text-decoration: none;
+  transition: .3s;
+}
+
+.join-btn:hover {
+  transform: scale(1.05);
+}
+
+.intro-box small {
+  display: block;
+  margin-top: 18px;
+  color: #ffffff80;
+  font-size: 10px;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 4px;
+}
+
+.logo span {
+  color: #c4b5fd;
+}
+
+.status {
+  padding: 9px 15px;
+  border: 1px solid #ffffff40;
+  border-radius: 30px;
+  background: #ffffff15;
+  font-size: 11px;
+}
+
+/* GLASS */
+.glass {
+  background: #ffffff14;
+  border: 1px solid #ffffff38;
+  border-radius: 22px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 15px 50px #0005;
+}
+
+/* HERO */
+.hero {
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.hero small {
+  color: #c4b5fd;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 6vw, 48px);
+  margin: 15px 0;
+}
+
+.hero p {
+  color: #ffffffa8;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+/* CONTENT */
+.content {
+  display: grid;
+  grid-template-columns: 1.3fr .7fr;
+  gap: 18px;
+}
+
+.playlist, .player {
+  padding: 22px;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.heading h3 {
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.heading span {
+  color: #ffffff80;
+  font-size: 11px;
+}
+
+/* TRACK */
+.track {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px;
+  margin-bottom: 9px;
+  border-radius: 14px;
+  background: #ffffff0a;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.track:hover, .track.active {
+  background: #a78bfa30;
+  border-color: #c4b5fd70;
+}
+
+.track-number {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: #ffffff15;
+  border-radius: 11px;
+  color: #c4b5fd;
+}
+
+.track-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.track-info h4 {
+  font-size: 13px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.track-info p {
+  color: #ffffff85;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.track-type {
+  font-size: 9px;
+  color: #ffffff80;
+}
+
+/* PLAYER */
+.cover {
+  height: 160px;
+  display: grid;
+  place-items: center;
+  font-size: 55px;
+  border-radius: 17px;
+  background: linear-gradient(135deg,#a78bfa55,#ffffff08);
+  border: 1px solid #ffffff30;
+  margin-bottom: 20px;
+}
+
+.now-label {
+  color: #c4b5fd;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+#songTitle {
+  font-size: 18px;
+  margin: 9px 0 5px;
+}
+
+#songArtist {
+  color: #ffffff85;
+  font-size: 12px;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 22px 0 8px;
+  accent-color: #c4b5fd;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+  color: #ffffff80;
+  font-size: 10px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 17px;
+  margin: 20px 0;
+}
+
+.controls button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff20;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.controls .main-btn {
+  width: 53px;
+  height: 53px;
+  background: #c4b5fd;
+  color: #21153e;
+  font-size: 21px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 25px;
+  color: #ffffff70;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.empty {
+  text-align: center;
+  padding: 25px 10px;
+  color: #ffffff90;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media(max-width:720px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    padding: 22px;
+  }
+  .cover {
+    height: 140px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- POPUP SALURAN -->
+<div id="intro">
+  <div class="intro-box">
+    <button id="closeIntro">×</button>
+    <div class="intro-icon">♪</div>
+    <h1>YATZZ <span>MUSIC</span></h1>
+    <p>
+      Hai! Sebelum menikmati playlist,
+      yuk gabung ke saluran WhatsApp YATZZ
+      untuk mendapatkan update terbaru!
+    </p>
+    <a href="https://whatsapp.com/channel/0029VbDgwuS42DcgogZs4o33"
+       target="_blank" rel="noopener noreferrer"
+       class="join-btn">
+       JOIN CHANNEL
+    </a>
+    <small>Tekan × jika tidak ingin bergabung</small>
+  </div>
+</div>
+
+<video id="bgVideo" autoplay muted loop playsinline></video>
+<div class="overlay"></div>
+
+<div class="container">
+
+<header>
+  <div class="logo">YATZZ <span>MUSIC</span></div>
+  <div class="status">♪ MUSIC SPACE</div>
+</header>
+
+<section class="hero glass">
+  <small>WELCOME TO YATZZ MUSIC</small>
+  <h1>Dengarkan lagunya.<br>Enjoy The Moment.</h1>
+  <p>
+    Ini tempat playlist lagu kalau kamu mau dengar
+    lagu tanpa iklan. Mau request playlist?
+    Hubungi admin: 08132044970.
+  </p>
+</section>
+
+<div class="content">
+
+<section class="playlist glass">
+  <div class="heading">
+    <h3>MY PLAYLIST</h3>
+    <span id="totalSongs">0 TRACKS</span>
+  </div>
+  <div id="playlist"></div>
+</section>
+
+<section class="player glass">
+  <div class="cover">♫</div>
+  <div class="now-label">NOW PLAYING</div>
+  <h3 id="songTitle">Pilih lagu</h3>
+  <p id="songArtist">YATZZ MUSIC</p>
+
+  <input type="range" id="seek" value="0" min="0" max="100">
+
+  <div class="time">
+    <span id="currentTime">0:00</span>
+    <span id="duration">0:00</span>
+  </div>
+
+  <div class="controls">
+    <button id="prev">⏮</button>
+    <button class="main-btn" id="play">▶</button>
+    <button id="next">⏭</button>
+  </div>
+</section>
+
+</div>
+
+<footer>MADE WITH ♡ BY YATZZ</footer>
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+
+/* TUTUP POPUP */
+document.getElementById("closeIntro").onclick = function() {
+  document.getElementById("intro").classList.add("hide");
+};
+
+/* =================================
+   PENGATURAN WEBSITE YATZZ MUSIC
+================================= */
+
+/* GANTI BACKGROUND VIDEO DI SINI */
+const BACKGROUND_VIDEO = "sukuna bg.mp4";
+
+/* TAMBAHKAN PLAYLIST DI SINI */
+const PLAYLIST = [
+  {
+    title: "teh hijau",
+    artist: "tulus",
+    type: "audio",
+    src: "teh hijau.mp3"
+  },
+  {
+    title: "locked of heaven",
+    artist: "bruno mars",
+    type: "audio",
+    src: "Bruno mars.mp3"
+  },
+  {
+    title: "dunia yang nanti",
+    artist: "raim laude",
+    type: "audio",
+    src: "dunia yang nanti.mp3"
+  },
+  {
+    title: "keep me",
+    artist: "novo amor",
+    type: "audio",
+    src: "SpotiDownloader.com - Keep Me - Novo Amor.mp3"
+  },
+  {
+    title: "drop dead",
+    artist: "olivia rodrigo",
+    type: "audio",
+    src: "drop dead by Olivia rodrigo.mp3"
+  },
+  {
+    title: "i lay on my love you",
+    artist: "westlife",
+    type: "audio",
+    src: "I lay on my love you.mp3"
+  },
+  {
+    title: "good life",
+    artist: "G-keazy kahlani",
+    type: "audio",
+    src: "good life.mp3"
+  },
+  {
+    title: "blank spake",
+    artist: "taylor swift",
+    type: "audio",
+    src: "blanck spake.mp3"
+  }
+];
+
+/* =================================
+   SISTEM PLAYER
+================================= */
+
+const audio = document.getElementById("audio");
+const playlistBox = document.getElementById("playlist");
+
+let currentIndex = -1;
+
+document.getElementById("bgVideo").src = BACKGROUND_VIDEO;
+
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds)) return "0:00";
+  let minutes = Math.floor(seconds / 60);
+  let secs = Math.floor(seconds % 60);
+  return minutes + ":" + String(secs).padStart(2, "0");
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
+}
+
+function renderPlaylist() {
+  document.getElementById("totalSongs").textContent =
+    PLAYLIST.length + " TRACKS";
+
+  if (!PLAYLIST.length) {
+    playlistBox.innerHTML =
+      '<div class="empty">Playlist masih kosong.<br>Tambahkan lagu melalui kode.</div>';
+    return;
+  }
+
+  playlistBox.innerHTML = PLAYLIST.map((song, index) => `
+    <div class="track ${index === currentIndex ? "active" : ""}"
+         onclick="playSong(${index})">
+      <div class="track-number">
+        ${String(index + 1).padStart(2, "0")}
+      </div>
+      <div class="track-info">
+        <h4>${escapeHTML(song.title)}</h4>
+        <p>${escapeHTML(song.artist)}</p>
+      </div>
+      <div class="track-type">AUDIO</div>
+    </div>
+  `).join("");
+}
+
+function playSong(index) {
+  if (!PLAYLIST.length) return;
+
+  currentIndex = index;
+  const song = PLAYLIST[index];
+
+  document.getElementById("songTitle").textContent = song.title;
+  document.getElementById("songArtist").textContent = song.artist;
+
+  renderPlaylist();
+  audio.src = song.src;
+
+  audio.play().then(() => {
+    document.getElementById("play").textContent = "Ⅱ";
+  }).catch(() => {
+    alert("Lagu tidak dapat diputar. Periksa nama file audio.");
+  });
+}
+
+function togglePlay() {
+  if (currentIndex === -1) {
+    if (PLAYLIST.length) playSong(0);
+    return;
+  }
+
+  if (audio.paused) {
+    audio.play();
+    document.getElementById("play").textContent = "Ⅱ";
+  } else {
+    audio.pause();
+    document.getElementById("play").textContent = "▶";
+  }
+}
+
+function nextSong() {
+  if (!PLAYLIST.length) return;
+  playSong((currentIndex + 1) % PLAYLIST.length);
+}
+
+function prevSong() {
+  if (!PLAYLIST.length) return;
+  playSong(
+    currentIndex <= 0
+      ? PLAYLIST.length - 1
+      : currentIndex - 1
+  );
+}
+
+document.getElementById("play").onclick = togglePlay;
+document.getElementById("next").onclick = nextSong;
+document.getElementById("prev").onclick = prevSong;
+
+audio.addEventListener("timeupdate", () => {
+  document.getElementById("currentTime").textContent =
+    formatTime(audio.currentTime);
+
+  document.getElementById("duration").textContent =
+    formatTime(audio.duration);
+
+  document.getElementById("seek").value =
+    audio.duration
+      ? (audio.currentTime / audio.duration) * 100
+      : 0;
+});
+
+audio.addEventListener("ended", nextSong);
+
+document.getElementById("seek").addEventListener("input", function() {
+  if (audio.duration) {
+    audio.currentTime = audio.duration * this.value / 100;
+  }
+});
+
+renderPlaylist();
+
+</script>
+</body>
+</html>
